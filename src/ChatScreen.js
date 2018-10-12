@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import Chatkit from '@pusher/chatkit'
 import MessageList from './components/MessageList'
 import SendMessageForm from './components/SendMessageForm'
-// import TypingIndicator from './components/TypingIndicator'
-// import WhosOnlineList from './components/WhosOnlineList'
+import TypingIndicator from './components/TypingIndicator'
+import WhosOnlineList from './components/WhosOnlineList'
 
 class ChatScreen extends Component {
   constructor(props) {
@@ -12,16 +12,16 @@ class ChatScreen extends Component {
       currentUser: {},
       currentRoom: {},
      messages: [],
-    //  usersWhoAreTyping: [],
+    usersWhoAreTyping: [],
     }
     this.sendMessage = this.sendMessage.bind(this)
-    // this.sendTypingEvent = this.sendTypingEvent.bind(this)
+    this.sendTypingEvent = this.sendTypingEvent.bind(this)
   }
-  // sendTypingEvent() {
-  //       this.state.currentUser
-  //         .isTypingIn({ roomId: this.state.currentRoom.id })
-  //         .catch(error => console.error('error', error))
-  // }
+  sendTypingEvent() {
+         this.state.currentUser
+           .isTypingIn({ roomId: this.state.currentRoom.id })
+           .catch(error => console.error('error', error))
+   }
   sendMessage(text) {
         this.state.currentUser.sendMessage({
           text,
@@ -51,21 +51,21 @@ class ChatScreen extends Component {
                           messages: [...this.state.messages, message],
                         })
                       },
-                      // onUserStartedTyping: user => {
-                      //                 this.setState({
-                      //                   usersWhoAreTyping: [...this.state.usersWhoAreTyping, user.name],
-                      //                })
-                      //               },
-                      //               onUserStoppedTyping: user => {
-                      //                 this.setState({
-                      //                   usersWhoAreTyping: this.state.usersWhoAreTyping.filter(
-                      //                     username => username !== user.name
-                      //                   ),
-                      //                 })
-                      //               }, 
-                                    //  onUserCameOnline: () => this.forceUpdate(),
-                                    // onUserWentOffline: () => this.forceUpdate(),
-                                    // onUserJoined: () => this.forceUpdate(),
+                       UserStartedTyping: user => {
+                                       this.setState({
+                                        usersWhoAreTyping: [...this.state.usersWhoAreTyping, user.name],
+                                    })
+                                   },
+                                     UserStoppedTyping: user => {
+                                       this.setState({
+                                         usersWhoAreTyping: this.state.usersWhoAreTyping.filter(
+                                           username => username !== user.name
+                                         ),
+                                       })
+                                     }, 
+                                    onUserCameOnline: () => this.forceUpdate(),
+                                    onUserWentOffline: () => this.forceUpdate(),
+                                    onUserJoined: () => this.forceUpdate(),
 
                      },
                   })
@@ -107,24 +107,24 @@ class ChatScreen extends Component {
     return (
       <div style={styles.container}>
       <header style={styles.header}>
-        <h2>Chatly</h2>
+        <h2>MESSENGER</h2>
       </header>
       <div style={styles.chatContainer}>
         <aside style={styles.whosOnlineListContainer}>
-             {/* <WhosOnlineList
+             <WhosOnlineList
               currentUser={this.state.currentUser}
               users={this.state.currentRoom.users}
-             />  */}
+             /> 
         </aside>
         <section style={styles.chatListContainer}>
           <MessageList
             messages={this.state.messages}
             style={styles.chatList}
           />
-          {/* <TypingIndicator usersWhoAreTyping={this.state.usersWhoAreTyping} /> */}
+          <TypingIndicator usersWhoAreTyping={this.state.usersWhoAreTyping} />
           <SendMessageForm
             onSubmit={this.sendMessage}
-            // onChange={this.sendTypingEvent}
+            onChange={this.sendTypingEvent}
           />
         </section>
       </div>
