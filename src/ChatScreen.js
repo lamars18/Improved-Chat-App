@@ -90,7 +90,7 @@ class ChatScreen extends Component {
         flex: 1,
       },
       whosOnlineListContainer: {
-        width: '300px',
+        width: '200px',
         flex: 'none',
         padding: 20,
         backgroundColor: '#2c303b',
@@ -101,7 +101,14 @@ class ChatScreen extends Component {
         width: '85%',
         display: 'flex',
         flexDirection: 'column',
-      }
+      },
+      typingIndicatorContainer: {
+        padding: 20,
+        width: '85%',
+        display: 'flex',
+        flexDirection: 'column',
+        color: 'red',
+      } 
    }
 
     return (
@@ -121,11 +128,14 @@ class ChatScreen extends Component {
             messages={this.state.messages}
             style={styles.chatList}
           />
+          
+           <section style={styles.TypingIndicatorContainer}>
           <TypingIndicator usersWhoAreTyping={this.state.usersWhoAreTyping} />
           <SendMessageForm
             onSubmit={this.sendMessage}
             onChange={this.sendTypingEvent}
           />
+           </section>
         </section>
       </div>
     </div>
